@@ -87,6 +87,8 @@ We integrate DexRep as the feature representation within the DP3 diffusion-based
 
 ### Training Example
 
+Before training the model, please download GraspM3 from [link](https://drive.google.com/drive/folders/1nBVx9aubPUOk_FHKR8ec5tkQrTQcF2qq?usp=sharing) and place a subset of the dataset in `./dexgrasp/dataset/valid`.
+
 **Method 1**
 
 Run the training with:
