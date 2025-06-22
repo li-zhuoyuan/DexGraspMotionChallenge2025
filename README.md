@@ -14,7 +14,7 @@ This repository provides example code for training and testing on grasping traje
   conda activate DexGraspMotionChallenge2025</code></pre>
 
 - Install IsaacGym
-  - Download IsaacGym
+  - Download [IsaacGym](https://developer.nvidia.com/isaac-gym/download)
   - Extract the downloaded files to the main directory of the project
   - Use the following command to install IsaacGym
   <pre><code>pip install -e ./isaacgym/python</code></pre>
@@ -30,7 +30,7 @@ This repository provides example code for training and testing on grasping traje
   
 ## 2. Dataset Download
 
-You can download the mesh data of objects in GraspM3 from the link.
+You can download the mesh data of objects in GraspM3 from the [link](https://drive.google.com/drive/folders/1nBVx9aubPUOk_FHKR8ec5tkQrTQcF2qq?usp=sharing).The file is named `meshdata.tar.gz`.
 
 The structure of the mesh data for a single object is as follows:
 
@@ -49,7 +49,8 @@ The structure of the mesh data for a single object is as follows:
 │       ├── coacd_convex_piece_3.obj
 │       └── coacd_convex_piece_4.obj</code></pre>
 
-You can download the GraspM3 dataset from the link.
+You can download the GraspM3 dataset from the [link](https://drive.google.com/drive/folders/1nBVx9aubPUOk_FHKR8ec5tkQrTQcF2qq?usp=sharing).The file is named `GraspM3.tar.gz`.
+
 The compressed package contains multiple `.npy` files, each named after the object ID.
 
 Each `.npy` file is a dictionary with the following keys:
@@ -62,6 +63,9 @@ Here, B is the number of trajectories, T is the sequence length, and D = 28 is t
 - the first 3 dimensions: global translation of the hand,
 - the next 3 dimensions: global rotation of the hand,
 - the remaining 22 dimensions: joint angles of the hand.
+
+> **Note:** The translation parameters of the hand are defined relative to the reference point \([0, 0, 1]\).  
+> For example, if the z-axis translation value of the hand is `-0.2`, it corresponds to a world coordinate z-value of `0.8`.
 
 The illustration of the initial pose of the dexterous hand is shown below.
 
@@ -107,6 +111,8 @@ Run the following command to perform testing:
 
 **Method 2**
 
-Run the following command to perform testing:
+If you want to test using this method, please download the `last.ckpt` file from [link](https://drive.google.com/drive/folders/1nBVx9aubPUOk_FHKR8ec5tkQrTQcF2qq?usp=sharing) and modify the `checkpoints` parameter in `ActionDiffusion/bc/config/dp3.yaml`.
+
+Then run the following command to perform testing:
 
 <pre><code>python -u bc_env_infer_multisteps.py --task=ShadowHandGraspDexRepIjrr --algo=ppo1 --seed=0 --rl_device=cuda:0 --sim_device=cuda:0 --logdir=logs/dexrep_dexgrasp --headless</code></pre>
