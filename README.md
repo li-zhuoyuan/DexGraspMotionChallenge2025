@@ -24,6 +24,10 @@ This repository provides example code for training and testing on grasping traje
   <pre><code>git clone https://github.com/facebookresearch/pytorch3d.git
   cd pytorch3d
   pip install -e .</code></pre>
+- Install pytorch_kinematics
+  <pre><code>cd ..
+  cd pytorch_kinematics
+  pip install -e .</code></pre>
 - Install other dependencies
   <pre><code>cd ..
   pip install pip==23.3.1
@@ -74,48 +78,24 @@ The illustration of the initial pose of the dexterous hand is shown below.
   
 ## 3. Training and Testing Examples
 
-We provide two training approaches based on different learning frameworks.Both methods utilize [DexRep](https://arxiv.org/pdf/2303.09806), a representation for dexterous grasping that encodes both geometric and spatial hand-object information. DexRep consists of three components: (1) Occupancy Feature, (2) Surface Feature, and (3) Local-Geo Feature.
+We provide example code for training and testing, both conducted on a **single object**. 
 
-**Method 1: MLP + DexRep**
+Our method utilizes [DexRep](https://arxiv.org/pdf/2303.09806), a representation for dexterous grasping that encodes both geometric and spatial hand-object information. DexRep consists of three components: (1) Occupancy Feature, (2) Surface Feature, and (3) Local-Geo Feature.
 
-In this baseline, we use a multi-layer perceptron (MLP) as the policy network trained on top of DexRep features extracted from hand-object configurations.
-
-**Method 2: DP3 + DexRep**
-
-This approach is inspired by [3D diffusion policy](https://arxiv.org/abs/2403.03954).
-
-We integrate DexRep as the feature representation within the DP3 diffusion-based policy learning framework.
+In our baseline, we use a multi-layer perceptron (MLP) as the policy network trained on top of DexRep features extracted from hand-object configurations.
 
 ### Training Example
 
 Before training the model, please download GraspM3 from [link](https://drive.google.com/drive/folders/1nBVx9aubPUOk_FHKR8ec5tkQrTQcF2qq?usp=sharing) and place a subset of the dataset in `./dexgrasp/dataset/valid`.
-
-**Method 1**
 
 Run the training with:
 
 <pre><code>cd dexgrasp
 python train_bc_lighting_dexrep.py</code></pre>
 
-**Method 2**
-
-Run the training with:
-
-<pre><code>cd dexgrasp
-python train_bc_lighting_dp3_dexrep.py</code></pre>
-
 ### Testing Example
-
-**Method 1**
 
 Run the following command to perform testing:
 
 <pre><code>python -u bc_env_infer.py --task=ShadowHandGraspDexRepIjrr --algo=ppo1 --seed=0 --rl_device=cuda:0 --sim_device=cuda:0 --logdir=logs/dexrep_dexgrasp --headless</code></pre>
 
-**Method 2**
-
-If you want to test using this method, please download the `last.ckpt` file from [link](https://drive.google.com/drive/folders/1nBVx9aubPUOk_FHKR8ec5tkQrTQcF2qq?usp=sharing) and modify the `checkpoints` parameter in `ActionDiffusion/bc/config/dp3.yaml`.
-
-Then run the following command to perform testing:
-
-<pre><code>python -u bc_env_infer_multisteps.py --task=ShadowHandGraspDexRepIjrr --algo=ppo1 --seed=0 --rl_device=cuda:0 --sim_device=cuda:0 --logdir=logs/dexrep_dexgrasp --headless</code></pre>
