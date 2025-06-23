@@ -10,7 +10,7 @@ This repository provides example code for training and testing on grasping traje
 
 - Create a conda environment
   
-  <pre><code>conda create -n DexGraspMotionChallenge2025 python==3.8
+  <pre><code>conda create -n DexGraspMotionChallenge2025 python==3.8.19
   conda activate DexGraspMotionChallenge2025</code></pre>
 
 - Install IsaacGym
@@ -19,13 +19,14 @@ This repository provides example code for training and testing on grasping traje
   - Use the following command to install IsaacGym
   <pre><code>pip install -e ./isaacgym/python</code></pre>
 - Install PyTorch
-  <pre><code>pip install torch==1.13.0+cu117 torchvision==0.14.0+cu117 torchaudio==0.13.0 --extra-index-url https://download.pytorch.org/whl/cu117</code></pre>
+  <pre><code>pip install torch==1.12.1+cu113 torchvision==0.13.1+cu113 torchaudio==0.12.1 --extra-index-url https://download.pytorch.org/whl/cu113</code></pre>
 - Install PyTorch3D
   <pre><code>git clone https://github.com/facebookresearch/pytorch3d.git
   cd pytorch3d
   pip install -e .</code></pre>
 - Install other dependencies
   <pre><code>cd ..
+  pip install pip==23.3.1
   pip install -e .</code></pre>
   
 ## 2. Dataset Download
