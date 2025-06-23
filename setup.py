@@ -24,9 +24,9 @@ setup(
         'dill==0.3.9',
         'opencv-python==4.10.0.84',
         'scenepic==1.1.1',
-        'pytorch-kinematics==0.7.0',
         'arm_pytorch_utilities==0.4.3',
         'omegaconf==2.1.1',
+        'zarr==2.13.3',
     ],
     python_requires='>=3.8',
 )
