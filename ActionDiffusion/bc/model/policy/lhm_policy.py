@@ -3,7 +3,6 @@ import torch.nn as nn
 import pytorch_lightning as pl
 import torch.nn.functional as F
 from ActionDiffusion.bc.model.policy.lqt_policy import ActorCriticDexRep,ActorCriticPNG
-from  ActionDiffusion.model.policy.dp3_lightning import DP3Lightning
 from ActionDiffusion.utils.parser_util import simple_instantiate
 from ActionDiffusion.common.pytorch_util import dict_apply
 from torch.distributions import MultivariateNormal
