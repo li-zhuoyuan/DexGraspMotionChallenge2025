@@ -1,12 +1,10 @@
 import os
-
 import numpy as np
 
 import torch
 import torch.nn as nn
 from torch.distributions import MultivariateNormal
 import torch.nn.functional as F
-from dexgrasp.algorithms.rl.backbones.pre_model import Encoder_DexRep, Encoder_GeoDex, Encoder_GeoDex_cold, PointNetfeatTwoStream
 
 import pytorch_lightning as pl
 
