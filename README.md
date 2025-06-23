@@ -24,6 +24,10 @@ This repository provides example code for training and testing on grasping traje
   <pre><code>git clone https://github.com/facebookresearch/pytorch3d.git
   cd pytorch3d
   pip install -e .</code></pre>
+- Install TorchSDF
+  <pre><code>git clone https://github.com/wrc042/TorchSDF.git
+  cd TorchSDF
+  pip install -e .</code></pre>
 - Install pytorch_kinematics
   <pre><code>cd ..
   cd pytorch_kinematics
