@@ -9,7 +9,6 @@ setup(
         'einops==0.8.0',
         'gym==0.26.2',
         'h5py==3.11.0',
-        'hydra-core==0.11.3',
         'matplotlib==3.5.1',
         'numpy==1.21.0',
         'point-cloud-utils==0.30.4',
