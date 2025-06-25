@@ -91,6 +91,8 @@ Our method utilizes [DexRep](https://arxiv.org/pdf/2303.09806), a representation
 
 In our baseline, we use a multi-layer perceptron (MLP) as the policy network trained on top of DexRep features extracted from hand-object configurations.
 
+> **Note:** The data in the `./dexgrasp/dataset` folder, except for `obj_rotmat`, `obj_scale`, and `grasp_seqs`, consists of representations extracted by us. These additional contents are not included in the  dataset provided to participants.
+
 ### Training Example
 
 Before training the model, please download GraspM3 from [link](https://drive.google.com/drive/folders/1nBVx9aubPUOk_FHKR8ec5tkQrTQcF2qq?usp=sharing) and place a subset of the dataset in `./dexgrasp/dataset/valid`.
