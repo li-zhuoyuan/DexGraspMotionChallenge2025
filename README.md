@@ -10,14 +10,17 @@ This repository provides example code for training and testing on grasping traje
 
 - Create a conda environment
   
-  <pre><code>conda create -n DexGraspMotionChallenge2025 python==3.8.19
+  <pre><code>git clone https://github.com/DexGraspMotionChallenge/DexGraspMotionChallenge2025.git
+  cd DexGraspMotionChallenge2025
+  conda create -n DexGraspMotionChallenge2025 python==3.8.19
   conda activate DexGraspMotionChallenge2025</code></pre>
 
 - Install IsaacGym
   - Download [IsaacGym](https://developer.nvidia.com/isaac-gym/download)
   - Extract the downloaded files to the main directory of the project
   - Use the following command to install IsaacGym
-  <pre><code>pip install -e ./isaacgym/python</code></pre>
+  <pre><code>cd ./isaacgym/python
+  pip install -e .</code></pre>
 - Install PyTorch
   <pre><code>pip install torch==1.12.1+cu113 torchvision==0.13.1+cu113 torchaudio==0.12.1 --extra-index-url https://download.pytorch.org/whl/cu113</code></pre>
 - Install PyTorch3D
@@ -96,6 +99,13 @@ Run the training with:
 
 <pre><code>cd dexgrasp
 python train_bc_lighting_dexrep.py</code></pre>
+
+If you encounter the error `ImportError: libpython3.8.so.1.0: cannot open shared object file: No such file or directory`, please run the following command.
+
+<pre><code>sudo apt update
+sudo apt install libpython3.8-dev</code></pre>
+
+> **Note:** This repo is based on g++ version 8.4.0. If your g++ version is too high, you can upgrade the `transformations` and `numpy` packages to compatible versions.
 
 ### Testing Example
 
