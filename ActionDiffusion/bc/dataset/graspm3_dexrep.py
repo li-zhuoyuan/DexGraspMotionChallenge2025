@@ -220,7 +220,7 @@ class GraspM3DexRepDataset(Dataset):
                 # return None
                 a=1
 
-            data_dct = self.seq_filter(data_dct)
+            # data_dct = self.seq_filter(data_dct)
 
             item = {'obj_code_idx': self.obj_code_name_list.index(obj_name)}
             for key in use_keys & data_dct.keys():
