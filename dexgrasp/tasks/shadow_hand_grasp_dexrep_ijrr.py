@@ -153,7 +153,10 @@ class ShadowHandGraspDexRepIjrr(BaseTask):
         ]
 
         if cfg['env']['env_mode'] in ['bc_env_infer', 'rl_learning'] :
-            trajs_path = "./dataset/train"
+            if self.cfg['env']['obj_type'] == 'seen' or 'one':
+                trajs_path = self.cfg['trajs_path']['train']
+            else:
+                trajs_path = self.cfg['trajs_path']['valid']
 
         if cfg['env']['env_mode']=='rl_learning':
             self.obj_trajs_info = self.rl_data_load(trajs_path)
