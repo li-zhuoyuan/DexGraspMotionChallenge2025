@@ -2,7 +2,7 @@
 
 ## Overview
 
-This repository provides example code for training and testing on grasping trajectories of a single object. It demonstrates how to set up the training pipeline and evaluate the performance of learned policies within a simulated environment.
+This repository provides example code for training and testing on grasping trajectories of a single object. It demonstrates how to set up the training pipeline and evaluate the performance of learned policies within a simulated environment. The network used in the example code of this repo is based on [**DexRepNet**](https://github.com/LQTS/DexRep_Isaac).
 
 ![Grasping Demo](assets/Grasping.gif)
 
@@ -114,4 +114,17 @@ sudo apt install libpython3.8-dev</code></pre>
 Run the following command to perform testing:
 
 <pre><code>python -u bc_env_infer.py --task=ShadowHandGraspDexRepIjrr --algo=ppo1 --seed=0 --rl_device=cuda:0 --sim_device=cuda:0 --logdir=logs/dexrep_dexgrasp --headless</code></pre>
+
+## Citation
+
+```bibtex
+@inproceedings{liu2023dexrepnet,
+  title={Dexrepnet: Learning dexterous robotic grasping network with geometric and spatial hand-object representations},
+  author={Liu, Qingtao and Cui, Yu and Ye, Qi and Sun, Zhengnan and Li, Haoming and Li, Gaofeng and Shao, Lin and Chen, Jiming},
+  booktitle={2023 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)},
+  pages={3153--3160},
+  year={2023},
+  organization={IEEE}
+}
+```
 
