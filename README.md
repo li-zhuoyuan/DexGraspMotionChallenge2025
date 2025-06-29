@@ -42,7 +42,7 @@ This repository provides example code for training and testing on grasping traje
   
 ## 2. Dataset Download
 
-You can download the mesh data of objects in GraspM3 from the [link](https://drive.google.com/drive/folders/1nBVx9aubPUOk_FHKR8ec5tkQrTQcF2qq?usp=sharing).The file is named `meshdata.tar.gz`.
+**You can download the mesh data of objects in GraspM3** from the [link](https://drive.google.com/drive/folders/1nBVx9aubPUOk_FHKR8ec5tkQrTQcF2qq?usp=sharing).The file is named `meshdata.tar.gz`.
 
 The structure of the mesh data for a single object is as follows:
 
@@ -61,7 +61,7 @@ The structure of the mesh data for a single object is as follows:
 │       ├── coacd_convex_piece_3.obj
 │       └── coacd_convex_piece_4.obj</code></pre>
 
-You can download the GraspM3 dataset from the [link](https://drive.google.com/drive/folders/1nBVx9aubPUOk_FHKR8ec5tkQrTQcF2qq?usp=sharing).The file is named `GraspM3.tar.gz`.
+**You can download the GraspM3 dataset** from the [link](https://drive.google.com/drive/folders/1nBVx9aubPUOk_FHKR8ec5tkQrTQcF2qq?usp=sharing).The file is named `GraspM3.tar.gz`.
 
 The compressed package contains multiple `.npy` files, each named after the object ID.
 
