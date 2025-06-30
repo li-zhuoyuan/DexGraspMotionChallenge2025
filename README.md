@@ -115,6 +115,10 @@ Run the following command to perform testing:
 
 <pre><code>python -u bc_env_infer.py --task=ShadowHandGraspDexRepIjrr --algo=ppo1 --seed=0 --rl_device=cuda:0 --sim_device=cuda:0 --logdir=logs/dexrep_dexgrasp --headless</code></pre>
 
+If you want to **enable visualization**, please remove `--headless` from the command.
+
+The **configurations** for **Isaac Gym** can be found in `./dexgrasp/cfg/shadow_hand_grasp_dexrep_ijrr.yaml` and `./dexgrasp/tasks/shadow_hand_grasp_dexrep_ijrr.py`.
+
 ## Citation
 
 ```bibtex
