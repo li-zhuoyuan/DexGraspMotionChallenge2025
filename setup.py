@@ -26,6 +26,7 @@ setup(
         'arm_pytorch_utilities==0.4.3',
         'omegaconf==2.1.1',
         'zarr==2.13.3',
+        'lxml==5.3.2',
     ],
     python_requires='>=3.8',
 )
