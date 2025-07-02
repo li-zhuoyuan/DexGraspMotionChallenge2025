@@ -10,6 +10,7 @@ from torch.utils.data import Dataset, DataLoader
 import random
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from tqdm import tqdm
+
 def obs_process_numpy(observation, pro_dim=128):
     """
     observation: numpy array of shape (B, 2582)
@@ -78,7 +79,7 @@ class GraspM3DexRepDataset(Dataset):
         if ds_name=='test':
             # self.seq_num=10000
             # self.seq_per_num=120
-            self.seq_num=500
+            self.seq_num = args.val_seq_num
             self.seq_per_num=100
 
 
@@ -95,7 +96,7 @@ class GraspM3DexRepDataset(Dataset):
             file_path_list =[osp.join(self.data_dir, file_name) for file_name in train_file_names['train_obj_num_1k']]
             a=1
 
-        elif self.seq_num==100 and ds_name=='train':
+        elif self.seq_num==40 and ds_name=='train':
             file_path_list = ['core-bottle-a02a1255256fbe01c9292f26f73f6538.npy']
 
 
@@ -198,7 +199,8 @@ class GraspM3DexRepDataset(Dataset):
     #     return data_store
 
     def data_load(self, obj_id_list, max_workers=16):
-        use_keys = {'obs', 'vis_unscale_actions', 'hand_pcds', 'obj_pcds', 'unscale_actions', 'grasp_seqs', 'h2o_vec'}
+        from data_preprocess import data_preprocess_online
+        use_keys = {'obs', 'vis_unscale_actions', 'hand_pcds', 'obj_pcds', 'unscale_actions', 'grasp_seqs', 'h2o_vec', 'obj_scale', 'obj_rotmat'}
         target_seq_num = self.seq_num
         all_results = []
 
@@ -220,13 +222,14 @@ class GraspM3DexRepDataset(Dataset):
                 # return None
                 a=1
 
-            data_dct = self.seq_filter(data_dct)
+            # data_dct = self.seq_filter(data_dct)
 
             item = {'obj_code_idx': self.obj_code_name_list.index(obj_name)}
             for key in use_keys & data_dct.keys():
                 if key != 'obj_code_idx':
                     part_val = data_dct[key][:self.seq_per_num]
                     item[key] = part_val
+            item['obj_code'] = obj_name
             return item
 
         with ThreadPoolExecutor(max_workers=max_workers) as executor:
@@ -235,11 +238,14 @@ class GraspM3DexRepDataset(Dataset):
                 result = future.result()
                 if result is not None:
                     all_results.append(result)
-                if sum(len(d['obs']) for d in all_results if 'obs' in d) >= target_seq_num:
+                if sum(len(d['grasp_seqs']) for d in all_results if 'grasp_seqs' in d) >= target_seq_num:
                     break
 
         data_store = {key: [] for key in ['obs', 'vis_unscale_actions', 'obj_code_idx',
                                           'grasp_seqs', 'hand_pcds', 'obj_pcds']}
+
+        if all_results and 'obs' not in all_results[0]:
+            all_results = data_preprocess_online(all_results)
 
         for item in all_results:
             # n_seq = len(next(iter(item.values())))
@@ -413,3 +419,4 @@ if __name__ == '__main__':
     i=0
     for data in iter(ds_train):
             a=1
+        
