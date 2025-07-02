@@ -42,7 +42,7 @@ This repository provides example code for training and testing on grasping traje
   
 ## 2. Dataset Download
 
-**You can download the mesh data of objects in GraspM3** from the [link](https://drive.google.com/drive/folders/1nBVx9aubPUOk_FHKR8ec5tkQrTQcF2qq?usp=sharing).The file is named `meshdata.tar.gz`.
+**You can download the mesh data of objects in GraspM3** from the [this link](https://drive.google.com/drive/folders/1nBVx9aubPUOk_FHKR8ec5tkQrTQcF2qq?usp=sharing).The file is named `meshdata.tar.gz`.
 
 The structure of the mesh data for a single object is as follows:
 
@@ -61,7 +61,7 @@ The structure of the mesh data for a single object is as follows:
 │       ├── coacd_convex_piece_3.obj
 │       └── coacd_convex_piece_4.obj</code></pre>
 
-**You can download the GraspM3 dataset** from the [link](https://drive.google.com/drive/folders/1nBVx9aubPUOk_FHKR8ec5tkQrTQcF2qq?usp=sharing).The file is named `GraspM3.tar.gz`.
+**You can download the GraspM3 dataset** from the [this link](https://drive.google.com/drive/folders/1nBVx9aubPUOk_FHKR8ec5tkQrTQcF2qq?usp=sharing).The file is named `GraspM3.tar.gz`.
 
 The compressed package contains multiple `.npy` files, each named after the object ID.
 
@@ -91,16 +91,24 @@ Our method utilizes [DexRep](https://arxiv.org/pdf/2303.09806), a representation
 
 In our baseline, we use a multi-layer perceptron (MLP) as the policy network trained on top of DexRep features extracted from hand-object configurations.
 
-> **Note:** The data in the `./dexgrasp/dataset` folder, except for `obj_rotmat`, `obj_scale`, and `grasp_seqs`, consists of representations extracted by us. These additional contents are not included in the  dataset provided to participants.
-
 ### Training Example
 
-Before training the model, please download GraspM3 from [link](https://drive.google.com/drive/folders/1nBVx9aubPUOk_FHKR8ec5tkQrTQcF2qq?usp=sharing) and place a subset of the dataset in `./dexgrasp/dataset/valid`.
+Before training the model, please download GraspM3 from [this link](https://drive.google.com/drive/folders/1nBVx9aubPUOk_FHKR8ec5tkQrTQcF2qq?usp=sharing) and place a subset of the dataset in either `./dexgrasp/dataset/train` or `./dexgrasp/dataset/valid` as needed.
 
 Run the training with:
 
 <pre><code>cd dexgrasp
 python train_bc_lighting_dexrep.py</code></pre>
+
+The data in `./dexgrasp/dataset/train` and `./dexgrasp/dataset/valid` included **in this demo** contains **pre-extracted features**, but these features are **not** included in `GraspM3.tar.gz`.
+
+The data preprocessing code can be found in [data_preprocess.py](https://github.com/DexGraspMotionChallenge/DexGraspMotionChallenge2025/blob/main/dexgrasp/data_preprocess.py). Currently, the training pipeline supports **online feature extraction**, which can be time-consuming. If you prefer to **preprocess the data and save the extracted features**, please run the following command:
+
+<pre><code>python data_preprocess.py --task=ShadowHandGraspDexRepIjrr2 --algo=ppo1 --seed=0 --rl_device=cuda:0 --sim_device=cuda:0 --logdir=logs/dexrep_dexgrasp --headless</code></pre>
+
+If an **out-of-memory error** occurs during data preprocessing, please process the data in **smaller batches**.
+
+During training, you can **modify the number of trajectories used** by changing the `seq_num` and `val_seq_num` parameters in [lhm_bc.yaml](https://github.com/DexGraspMotionChallenge/DexGraspMotionChallenge2025/blob/main/ActionDiffusion/bc/config/lhm_bc.yaml). The detailed data loading process can be found in the [GraspM3DexRepDataset](https://github.com/DexGraspMotionChallenge/DexGraspMotionChallenge2025/blob/5647adc5494dca3d94bad55765e6d6214e4ebe9c/ActionDiffusion/bc/dataset/graspm3_dexrep.py#L44) class.
 
 If you encounter the error `ImportError: libpython3.8.so.1.0: cannot open shared object file: No such file or directory`, please run the following command.
 
@@ -117,7 +125,9 @@ Run the following command to perform testing:
 
 If you want to **enable visualization**, please remove `--headless` from the command.
 
-The **configurations** for **Isaac Gym** can be found in `./dexgrasp/cfg/shadow_hand_grasp_dexrep_ijrr.yaml` and `./dexgrasp/tasks/shadow_hand_grasp_dexrep_ijrr.py`.
+The **configurations** for **Isaac Gym** can be found in [shadow_hand_grasp_dexrep_ijrr.yaml](https://github.com/DexGraspMotionChallenge/DexGraspMotionChallenge2025/blob/main/dexgrasp/cfg/shadow_hand_grasp_dexrep_ijrr.yaml) and [shadow_hand_grasp_dexrep_ijrr.py](https://github.com/DexGraspMotionChallenge/DexGraspMotionChallenge2025/blob/main/dexgrasp/tasks/shadow_hand_grasp_dexrep_ijrr.py).
+
+If you have trained your own model, please modify the `checkpoints` parameter in [lhm_bc.yaml](https://github.com/DexGraspMotionChallenge/DexGraspMotionChallenge2025/blob/main/ActionDiffusion/bc/config/lhm_bc.yaml) and the `obj_type` parameter in [shadow_hand_grasp_dexrep_ijrr.yaml](https://github.com/DexGraspMotionChallenge/DexGraspMotionChallenge2025/blob/main/dexgrasp/cfg/shadow_hand_grasp_dexrep_ijrr.yaml) before running inference.
 
 ## Citation
 
