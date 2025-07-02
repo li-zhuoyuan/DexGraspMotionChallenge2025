@@ -10,7 +10,7 @@
 # from tasks.shadow_hand_grasp_dexrep import ShadowHandGraspDexRep
 # from tasks.shadow_hand_grasp_dexrep_dexgrasp import ShadowHandGraspDexRepDexgrasp
 from tasks.shadow_hand_grasp_dexrep_ijrr import ShadowHandGraspDexRepIjrr
-# from tasks.shadow_hand_grasp_dexrep_ijrr2 import ShadowHandGraspDexRepIjrr2
+from tasks.shadow_hand_grasp_dexrep_ijrr2 import ShadowHandGraspDexRepIjrr2
 
 from tasks.hand_base.vec_task import VecTaskCPU, VecTaskGPU, VecTaskPython, VecTaskPythonArm
 
