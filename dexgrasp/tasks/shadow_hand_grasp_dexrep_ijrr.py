@@ -269,7 +269,7 @@ class ShadowHandGraspDexRepIjrr(BaseTask):
     def batch_load_data_dict(self, npy_list):
         # self.object_code_list = []
         self.object_idxs = []
-        self.obj_trajs_info = {'obj_scale':[], 'obj_rotmat':[],'grasp_seqs':[],'vis_unscale_actions':[]}
+        self.obj_trajs_info = {'obj_scale':[], 'obj_rotmat':[],'grasp_seqs':[]}
 
         for obj_id, data_dct in enumerate(npy_list):
             # obj_code = data_dct['obj_code']
