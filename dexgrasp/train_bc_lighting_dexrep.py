@@ -1,6 +1,6 @@
 import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
-
+from isaacgym.torch_utils import *
 import torch
 import pathlib
 
@@ -42,7 +42,7 @@ def main(args, env_args):
     args.policy.actor_critic = 'ActorCriticDexRep'
     env_args.env.obs_dim.pop('pnG')
 
-    args.seq_num=100
+    # args.seq_num=100
     args.add_noise=False
     args.noise_val=0.02
 
