@@ -101,7 +101,7 @@ env:
   fallPenalty: 0.0
 
   objectType: "pot" 
-  observationType: "dexrep" #'obs_pcds', obs_h2o #"dexrep"  #"pnG"
+  observationType: "DexRep" #'obs_pcds', obs_h2o #"dexrep"  #"pnG"
 
 
   obs_dim:
