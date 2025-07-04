@@ -8,6 +8,21 @@ This repository provides example code for training and testing on grasping traje
 
 ## 1. Environment Setup
 
+### Environment Information (Tested)
+
+#### Operating System
+- **OS**: Ubuntu 20.04.3 LTS  
+- **CUDA**: 11.3
+
+
+#### Build Tools
+| Tool     | Version     |
+|----------|-------------|
+| `gcc`    | 8.4.0       |
+| `g++`    | 8.4.0       |
+
+### Environment Installation
+
 - Create a conda environment
   
   <pre><code>git clone https://github.com/DexGraspMotionChallenge/DexGraspMotionChallenge2025.git
@@ -39,6 +54,13 @@ This repository provides example code for training and testing on grasping traje
   <pre><code>cd ..
   pip install pip==23.3.1
   pip install -e .</code></pre>
+
+If you encounter the error `ImportError: libpython3.8.so.1.0: cannot open shared object file: No such file or directory`, please run the following command.
+
+<pre><code>sudo apt update
+sudo apt install libpython3.8-dev</code></pre>
+
+> **Note:** This repo is based on g++ version 8.4.0. If your g++ version is too high, you can upgrade the `transformations` and `numpy` packages to compatible versions.
   
 ## 2. Dataset Download
 
@@ -109,13 +131,6 @@ The data preprocessing code can be found in [data_preprocess.py](https://github.
 If an **out-of-memory error** occurs during data preprocessing, please process the data in **smaller batches**.
 
 During training, you can **modify the number of trajectories used** by changing the `seq_num` and `val_seq_num` parameters in [lhm_bc.yaml](https://github.com/DexGraspMotionChallenge/DexGraspMotionChallenge2025/blob/main/ActionDiffusion/bc/config/lhm_bc.yaml). The detailed data loading process can be found in the [GraspM3DexRepDataset](https://github.com/DexGraspMotionChallenge/DexGraspMotionChallenge2025/blob/5647adc5494dca3d94bad55765e6d6214e4ebe9c/ActionDiffusion/bc/dataset/graspm3_dexrep.py#L44) class.
-
-If you encounter the error `ImportError: libpython3.8.so.1.0: cannot open shared object file: No such file or directory`, please run the following command.
-
-<pre><code>sudo apt update
-sudo apt install libpython3.8-dev</code></pre>
-
-> **Note:** This repo is based on g++ version 8.4.0. If your g++ version is too high, you can upgrade the `transformations` and `numpy` packages to compatible versions.
 
 ### Testing Example
 
