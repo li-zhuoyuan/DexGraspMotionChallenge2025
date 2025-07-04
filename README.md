@@ -36,24 +36,8 @@ This repository provides example code for training and testing on grasping traje
   - Use the following command to install IsaacGym
   <pre><code>cd ./isaacgym/python
   pip install -e .</code></pre>
-- Install PyTorch
-  <pre><code>pip install torch==1.12.1+cu113 torchvision==0.13.1+cu113 torchaudio==0.12.1 --extra-index-url https://download.pytorch.org/whl/cu113</code></pre>
-- Install PyTorch3D
-  <pre><code>git clone https://github.com/facebookresearch/pytorch3d.git
-  cd pytorch3d
-  pip install -e .</code></pre>
-- Install TorchSDF
-  <pre><code>git clone https://github.com/wrc042/TorchSDF.git
-  cd TorchSDF
-  pip install -e .</code></pre>
-- Install pytorch_kinematics
-  <pre><code>cd ..
-  cd pytorch_kinematics
-  pip install -e .</code></pre>
 - Install other dependencies
-  <pre><code>cd ..
-  pip install pip==23.3.1
-  pip install -e .</code></pre>
+  <pre><code>bash install.sh</code></pre>
 
 If you encounter the error `ImportError: libpython3.8.so.1.0: cannot open shared object file: No such file or directory`, please run the following command.
 
