@@ -155,3 +155,13 @@ def cross_product(u, v):
     out = torch.cat((i.view(batch, 1), j.view(batch, 1), k.view(batch, 1)), 1)
 
     return out
+  
+def robust_compute_ortho6d_from_euler(poses):
+    """
+
+    :param poses: batch euler (B,3)
+    :return hand_rot6d: (B, 6)
+    """
+    hand_rot6d = euler_angles_to_matrix(poses, convention='XYZ').transpose(1, 2).reshape(-1, 9)[:,:6]  # (N,6)
+    return hand_rot6d
+  
