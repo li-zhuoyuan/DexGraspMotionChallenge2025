@@ -526,7 +526,7 @@ def get_activation(act_name):
 if __name__ == "__main__":
     from omegaconf import OmegaConf
     import pathlib
-    args = OmegaConf.load("{}/lhm_bc.yaml".format('/remote-home/share/lqt/DexRep_Isaac_ijrr/ActionDiffusion/bc/config'))
+    args = OmegaConf.load("{}/lhm_bc.yaml".format('../ActionDiffusion/bc/config'))
 
     model_dexrep = ActorCriticDexRep()
     model_glob = ActorCriticPNG()
