@@ -120,9 +120,7 @@ def test_env(args, task, env, model, bc_model_name,obj_id, global_feat=None,use_
         elif model.__class__.__name__ == 'LitBCModel':
             if i>30 and env.task.cfg['env']['use_pre_fixed_actions']: #40
                 actions = env.task.get_pre_target_actions(actions,i)
-            obs_buf, pred_actions_now, sim_actions_now,_ = env.task.step(actions, i+1)
-            pred_actions.extend(pred_actions_now)
-            sim_actions.extend(sim_actions_now)
+            env.task.step(actions, i+1)
             next_obs = env.task.obs_buf.clone()# (B,2580)
             # next_obs = traj_obs[:, i]
 
@@ -198,11 +196,11 @@ def test_env(args, task, env, model, bc_model_name,obj_id, global_feat=None,use_
         if i>300:
             break
 
-    pred_actions = torch.stack(pred_actions, dim=0).transpose(0, 1)[:, :100]
-    sim_actions = torch.stack(sim_actions,dim=0).transpose(0,1)[:, :100]
-    data_dict = {'pred_actions': pred_actions, 'sim_actions': sim_actions}
-    if args.save_traj:
-        np.save('./results/{}.npy'.format(obj_id), data_dict, allow_pickle=True)
+    # pred_actions = torch.stack(pred_actions, dim=0).transpose(0, 1)[:, :100]
+    # sim_actions = torch.stack(sim_actions,dim=0).transpose(0,1)[:, :100]
+    # data_dict = {'pred_actions': pred_actions, 'sim_actions': sim_actions}
+    # if args.save_traj:
+    #     np.save('./results/{}.npy'.format(obj_id), data_dict, allow_pickle=True)
 
 
     return succ_rate, result_desc
