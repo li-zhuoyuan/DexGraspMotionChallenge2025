@@ -241,6 +241,7 @@ def get_args(benchmark=False, use_rlg_config=False):
             "help": "Path to the saved weights, only for rl_games RL library"},
         {"name": "--headless", "action": "store_true", "default": False,
             "help": "Force display off at all times"},
+        {"name": "--save_traj", "action": "store_true", "default": False},
 
         {"name": "--start_idxs", "type": int, "default": 0,
          "help": "choose the start idxs of the filelist to proceed"},
