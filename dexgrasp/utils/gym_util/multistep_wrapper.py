@@ -149,17 +149,21 @@ class MultiStepWrapper(gym.Wrapper):
         """
         actions: (n_action_steps,) + action_shape
         """
-        for i,act in enumerate(action):
+        pred_actions = []
+        sim_actions = []
+        for i, act in enumerate(action):
             # if len(self.done) > 0 and self.done[-1]:
-                # termination
-                # break
+            # termination
+            # break
             # observation, reward, done, info = self.env.step(act, id+i)
-            if id+i>33 and self.env.task.cfg['env']['use_pre_fixed_actions']: #40
-                act = self.env.task.get_pre_target_actions(act,id+i)
+            if id + i > 33 and self.env.task.cfg['env']['use_pre_fixed_actions']:  # 40
+                act = self.env.task.get_pre_target_actions(act, id + i)
                 # act = self.env.task.get_pre_target_actions(act,id+i,previous_actions=self.previous_acts[0])
 
-            self.env.task.step(act, id+i)
-            a=1
+            self.env.task.step(act, id + i)
+            pred_actions.append(self.env.task.cur_targets.detach().cpu()[:10].clone())
+            sim_actions.append(self.env.task.shadow_hand_dof_pos.detach().cpu()[:10].clone())
+            a = 1
 
             # self.obs.append(observation.clone())
             # self.reward.append(reward)
@@ -178,7 +182,7 @@ class MultiStepWrapper(gym.Wrapper):
         # done = aggregate(self.done, 'max')
         # info = dict_take_last_n(self.info, self.n_obs_steps)
         # return observation, reward, done, info
-        return observation, 0, 0, 0
+        return observation, pred_actions, sim_actions, 0
 
     def _get_obs(self, n_steps=1):
         """
