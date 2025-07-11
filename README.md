@@ -118,7 +118,7 @@ During training, you can **modify the number of trajectories used** by changing 
 
 ### Testing Example
 
-Run the following command to perform testing:
+Run the following command to perform testing, this code can evaluate the **grasp success rate**:
 
 <pre><code>python -u bc_env_infer.py --task=ShadowHandGraspDexRepIjrr --algo=ppo1 --seed=0 --rl_device=cuda:0 --sim_device=cuda:0 --logdir=logs/dexrep_dexgrasp --headless</code></pre>
 
@@ -127,6 +127,10 @@ If you want to **enable visualization**, please remove `--headless` from the com
 The **configurations** for **Isaac Gym** can be found in [shadow_hand_grasp_dexrep_ijrr.yaml](https://github.com/DexGraspMotionChallenge/DexGraspMotionChallenge2025/blob/main/dexgrasp/cfg/shadow_hand_grasp_dexrep_ijrr.yaml) and [shadow_hand_grasp_dexrep_ijrr.py](https://github.com/DexGraspMotionChallenge/DexGraspMotionChallenge2025/blob/main/dexgrasp/tasks/shadow_hand_grasp_dexrep_ijrr.py).
 
 If you have trained your own model, please modify the `checkpoints` parameter in [lhm_bc.yaml](https://github.com/DexGraspMotionChallenge/DexGraspMotionChallenge2025/blob/main/ActionDiffusion/bc/config/lhm_bc.yaml) and the `obj_type` parameter in [shadow_hand_grasp_dexrep_ijrr.yaml](https://github.com/DexGraspMotionChallenge/DexGraspMotionChallenge2025/blob/main/dexgrasp/cfg/shadow_hand_grasp_dexrep_ijrr.yaml) before running inference.
+
+If you want to evaluate **human-likeness**, please run the example code with the following command.
+
+<pre><code>python traj_reconstruct_error.py</code></pre>
 
 ## Citation
 
