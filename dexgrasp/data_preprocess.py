@@ -144,6 +144,8 @@ def run():
     print("Algorithm: ", args.algo)
     agent_index = get_AgentIndex(cfg)
 
+    required_keys = {'obs', 'vis_unscale_actions', 'success_idx'}
+
     for traj_root_path in ['./dataset/train', './dataset/valid']:
         npy_paths = glob(osp.join(traj_root_path, "*.npy"))
 
@@ -151,9 +153,13 @@ def run():
         for i, npy_path in enumerate(npy_paths):
             obj_code = osp.basename(npy_path)[:-len('.npy')]
             obj_trajs_info = np.load(npy_path, allow_pickle=True).item()
-            if len(obj_trajs_info['grasp_seqs']) > 150:
-                for key, val in obj_trajs_info.items():
-                    obj_trajs_info[key] = val[:150]
+            if required_keys.issubset(obj_trajs_info.keys()):
+                print(f"Skipping already processed file: {npy_path}")
+                continue
+                
+            # if len(obj_trajs_info['grasp_seqs']) > 150:
+            #     for key, val in obj_trajs_info.items():
+            #         obj_trajs_info[key] = val[:150]
             obj_trajs_info['obj_code'] = obj_code
             all_npy.append(obj_trajs_info)
 
