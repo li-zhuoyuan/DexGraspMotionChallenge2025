@@ -47,7 +47,7 @@ sudo apt install libpython3.8-dev</code></pre>
 > **Note:** This repo is based on g++ version 8.4.0. If your g++ version is too high, you can upgrade the `transformations` and `numpy` packages to compatible versions.
   
 ## 2. Dataset Download
-**Please send an email to `DexGraspMotionChallenge@outlook.com`(preferably using a Google account) to request access to the dataset on Google Drive.** If you do not receive a response to your email within two days, please submit an issue via this repository.
+**Please send an email to `DexGraspMotionChallenge@outlook.com` to request access to the dataset on Google Drive. In your email, please include your registered team name, institution, and a Google email address.** If you do not receive a response to your email within two days, please submit an issue via this repository.
 
 **You can download the mesh data of objects in GraspM3** from the [this link](https://drive.google.com/drive/folders/1nBVx9aubPUOk_FHKR8ec5tkQrTQcF2qq?usp=sharing).The file is named `meshdata.tar.gz`. 
 
