@@ -47,9 +47,9 @@ sudo apt install libpython3.8-dev</code></pre>
 > **Note:** This repo is based on g++ version 8.4.0. If your g++ version is too high, you can upgrade the `transformations` and `numpy` packages to compatible versions.
   
 ## 2. Dataset Download
-**Please send an email to `DexGraspMotionChallenge@outlook.com` to request access to the dataset on Google Drive. In your email, please include your registered team name, institution, and a Google email address.** If you do not receive a response to your email within two days, please submit an issue via this repository.
+**Please fill out [this form](https://forms.office.com/r/zW9xNPnaNh) to gain access to the dataset. The download link will automatically appear after you submit the form.** If you do not receive the download link, please submit an issue via this repository.
 
-**You can download the mesh data of objects in GraspM3** from the [this link](https://drive.google.com/drive/folders/1nBVx9aubPUOk_FHKR8ec5tkQrTQcF2qq?usp=sharing).The file is named `meshdata.tar.gz`. 
+**You can download the mesh data of objects in GraspM3** after registration. The file is named `meshdata.tar.gz`. 
 
 The structure of the mesh data for a single object is as follows:
 
@@ -68,7 +68,7 @@ The structure of the mesh data for a single object is as follows:
 │       ├── coacd_convex_piece_3.obj
 │       └── coacd_convex_piece_4.obj</code></pre>
 
-**You can download the GraspM3 dataset** from the [this link](https://drive.google.com/drive/folders/1nBVx9aubPUOk_FHKR8ec5tkQrTQcF2qq?usp=sharing).The file is named `GraspM3.tar.gz`.
+**You can download the GraspM3 dataset** after registration. The file is named `GraspM3.tar.gz`.
 
 The compressed package contains multiple `.npy` files, each named after the object ID.
 
@@ -86,7 +86,7 @@ Here, B is the number of trajectories, T is the sequence length, and D = 28 is t
 > **Note:** The translation parameters of the hand are defined relative to the reference point \([0, 0, 1]\).  
 > For example, if the z-axis translation value of the hand is `-0.2`, it corresponds to a world coordinate z-value of `0.8`.
 
-The illustration of the initial pose of the dexterous hand is shown below.
+The illustration of the initial pose of the dexterous hand is shown below. By default, all grasps are initialized in the righthand side (z and y values are greater than 0), at a random position 15–20 cm away.
 
 ![Image](assets/Image.png)
   
@@ -100,7 +100,7 @@ In our baseline, we use a multi-layer perceptron (MLP) as the policy network tra
 
 ### Training Example
 
-Before training the model, please download GraspM3 from [this link](https://drive.google.com/drive/folders/1nBVx9aubPUOk_FHKR8ec5tkQrTQcF2qq?usp=sharing) and place a subset of the dataset in either `./dexgrasp/dataset/train` or `./dexgrasp/dataset/valid` as needed.
+Before training the model, please download GraspM3 and place a subset of the dataset in either `./dexgrasp/dataset/train` or `./dexgrasp/dataset/valid` as needed.
 
 Run the training with:
 
