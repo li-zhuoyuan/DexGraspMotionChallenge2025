@@ -560,7 +560,7 @@ class cv_space(object):
             self.cube_center_batch_num = batch_num
             all_cube_center = self.create_grid(self.length, self.length_per_cube,
                                                dtype=torch.float32).repeat(batch_num, 1, 1).to(self.device)
-            off_set = torch.tensor(np.array([0, 0.045, 0]), dtype=torch.float32).to(self.device)
+            off_set = torch.tensor(np.array([0, -0.045, 0]), dtype=torch.float32).to(self.device)
             all_cube_center += off_set
             self.all_cubes_center = all_cube_center
         else:
@@ -569,7 +569,7 @@ class cv_space(object):
                 self.cube_center_batch_num = batch_num
                 all_cube_center = self.create_grid(self.length, self.length_per_cube,
                                                    dtype=torch.float32).repeat(batch_num, 1, 1).to(self.device)
-                off_set = torch.tensor(np.array([0, 0.045, 0]), dtype=torch.float32).to(self.device)
+                off_set = torch.tensor(np.array([0, -0.045, 0]), dtype=torch.float32).to(self.device)
                 all_cube_center += off_set
                 self.all_cubes_center = all_cube_center
 
