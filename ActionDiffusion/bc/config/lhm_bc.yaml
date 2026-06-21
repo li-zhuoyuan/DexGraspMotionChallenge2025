@@ -49,7 +49,7 @@ policy: # only works for MlpPolicy right now
   vf_hid_sizes: [1024, 1024, 512, 512]
   activation: elu
   actions_shape: 28
-  checkpoints: ActionDiffusion/bc/saved_models/1obj_seq2000_DexRep_pro100_start_uniform_vis_action_dsam_mod/last.ckpt
+  checkpoints: ActionDiffusion/bc/saved_models/last-v8.ckpt #1obj_seq2000_DexRep_pro100_start_uniform_vis_action_dsam_mod/last.ckpt
 
 encoder: # None
   name: t20-retac-tmr05-bin-ft+dataset-BottleCap

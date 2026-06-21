@@ -28,6 +28,7 @@ from utils.hand_model import HandModel
 from ActionDiffusion.utils.vis_utils import html_antmation_save
 from dexgrasp.utils.traj_utils import modify_hand_trajectory,downsampling_trajectory,compute_h2o_minimum_vec,\
     rotate_trajs_and_object_to_zneg_vectorized, unwrap_euler_batch_vectorized
+import cv2
 
 _DexRepEncoder_Map = {
             'pnG': PnGEncoder,
@@ -91,7 +92,12 @@ class ShadowHandGraspDexRepIjrr(BaseTask):
         )
         a=1
 
-
+        self.video_writers = []          # 视频写入器
+        self.camera_handles = []         # 摄像机句柄
+        self.frame_count = 0              # 帧计数器
+        self.save_video = True            # 是否保存视频（可通过 cfg 控制）
+        self.video_freq = 1               # 每 1 帧抓取一次（可调）
+        self.camera_env_indices = list(0)  # 选择要录制的环境, 传入对应环境的id列表，例如 [0, 1] 表示录制环境0和环境1
 
         control_freq_inv = self.cfg["env"].get("controlFrequencyInv", 1)
         if self.reset_time > 0.0:
@@ -341,6 +347,7 @@ class ShadowHandGraspDexRepIjrr(BaseTask):
         self.sim = super().create_sim(self.device_id, self.graphics_device_id, self.physics_engine, self.sim_params)
         self._create_ground_plane()
         self._create_envs(self.num_envs, self.cfg["env"]['envSpacing'], int(np.sqrt(self.num_envs)))
+        self._setup_camera()
 
     def _create_ground_plane(self):
         plane_params = gymapi.PlaneParams()
@@ -590,7 +597,40 @@ class ShadowHandGraspDexRepIjrr(BaseTask):
         self.goal_object_indices = to_torch(self.goal_object_indices, dtype=torch.long, device=self.device)
         self.table_indices = to_torch(self.table_indices, dtype=torch.long, device=self.device)
 
+    def _setup_camera(self):
+        """为指定的多个环境创建摄像机传感器"""
+        if len(self.camera_handles) > 0:
+            return  # 已创建则跳过
 
+        # 检查索引有效性
+        valid_indices = [idx for idx in self.camera_env_indices if idx < len(self.envs)]
+        if not valid_indices:
+            print("No valid environment indices for camera recording.")
+            return
+        self.camera_env_indices = valid_indices
+
+        camera_props = gymapi.CameraProperties()
+        camera_props.width = 640
+        camera_props.height = 480
+        camera_props.horizontal_fov = 60.0
+        camera_props.enable_tensors = True
+
+        for env_idx in self.camera_env_indices:
+            env_ptr = self.envs[env_idx]
+            cam_handle = self.gym.create_camera_sensor(env_ptr, camera_props)
+            # 设置摄像机位置（所有摄像机使用相同视角，但可分别调整）
+            cam_pos = gymapi.Vec3(0.5, -0.5, 0.8)
+            cam_target = gymapi.Vec3(0.0, 0.0, 0.5)
+            self.gym.set_camera_location(cam_handle, env_ptr, cam_pos, cam_target)
+            self.camera_handles.append(cam_handle)
+            # 每个摄像机独立视频写入器（稍后在第一次获取图像时初始化）
+            self.video_writers.append(None)
+            print(f"Camera sensor created for environment index {env_idx}")
+
+        # 如果只有一个摄像机，保持兼容
+        if len(self.camera_handles) == 1:
+            self.camera_handle = self.camera_handles[0]  # 兼容旧代码
+            print("Camera sensor created for video recording.")
 
     # def obj_pcd_transforms_from_state(self, obj_state, obj_verts):
     #     # B,D = obj_state.size()
@@ -1253,14 +1293,26 @@ class ShadowHandGraspDexRepIjrr(BaseTask):
         return shadow_hand_asset, shadow_hand_dof_props, table_texture_handle
 
     def clean_sim(self):
-        self.camera_rgb_tensor_list=[]
+        # 释放所有视频写入器
+        for i, writer in enumerate(self.video_writers):
+            if writer is not None:
+                writer.release()
+                env_idx = self.camera_env_indices[i] if i < len(self.camera_env_indices) else i
+                print(f"Video saved for environment {env_idx}")
 
-        self.num_object_bodies_list=[]
+        # 清空列表
+        self.video_writers = []
+        self.camera_handles = []
+
+        # 原有清理代码...
+        self.camera_rgb_tensor_list = []
+        self.num_object_bodies_list = []
         self.num_object_shapes_list = []
         self.object_code_list = []
-        if self.headless == False:
-            self.gym.destroy_viewer(self.my_viewer)
 
+        if self.headless == False:
+            if hasattr(self, 'my_viewer') and self.my_viewer is not None:
+                self.gym.destroy_viewer(self.my_viewer)
 
         self.gym.destroy_sim(self.sim)
 
@@ -1724,6 +1776,42 @@ class ShadowHandGraspDexRepIjrr(BaseTask):
                 # self.add_debug_lines(self.envs[i], self.left_hand_rf_pos[i], self.right_hand_rf_rot[i])
                 # self.add_debug_lines(self.envs[i], self.left_hand_lf_pos[i], self.right_hand_lf_rot[i])
                 # self.add_debug_lines(self.envs[i], self.left_hand_th_pos[i], self.right_hand_th_rot[i])
+
+        if self.save_video and len(self.camera_handles) > 0 and len(self.envs) > 0:
+            if self.frame_count % self.video_freq == 0:
+                # 一次调用即可更新所有摄像机传感器（官方推荐）
+                self.gym.step_graphics(self.sim)          # 若需要
+                self.gym.render_all_camera_sensors(self.sim)  # 更新所有摄像机
+
+                for idx, cam_handle in enumerate(self.camera_handles):
+                    env_idx = self.camera_env_indices[idx]
+                    env_ptr = self.envs[env_idx]
+                    # 获取图像
+                    img = self.gym.get_camera_image(self.sim, env_ptr, cam_handle, gymapi.IMAGE_COLOR)
+
+                    # resize image to 640x480
+                    img = cv2.resize(img, (640, 480))
+
+                    # 处理颜色通道
+                    if img.ndim == 2:
+                        img_bgr = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
+                    elif img.ndim == 3 and img.shape[2] == 3:
+                        img_bgr = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
+                    else:
+                        raise ValueError(f"Unexpected image shape: {img.shape}")
+
+                    # 初始化该摄像机的视频写入器
+                    if self.video_writers[idx] is None:
+                        h, w = img_bgr.shape[:2]
+                        fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+                        filename = f'output_env{env_idx}.mp4'  # 以环境索引命名
+                        self.video_writers[idx] = cv2.VideoWriter(filename, fourcc, 30.0, (w, h))
+                        print(f"Video writer created for env {env_idx}: {filename}")
+
+                    # 写入帧
+                    self.video_writers[idx].write(img_bgr)
+
+            self.frame_count += 1
 
     def add_debug_lines(self, env, pos, rot):
         posx = (pos + quat_apply(rot, to_torch([1, 0, 0], device=self.device) * 0.2)).cpu().numpy()

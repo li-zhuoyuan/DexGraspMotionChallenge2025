@@ -41,9 +41,9 @@ class BaseTask():
         # for vision, set graphics_device_id to 0 in cfg
         self.graphics_device_id = cfg.get("graphics_device_id", self.device_id)
         print("self.device_id:",self.device_id)
-        print("self.graphics_device_id",self.graphics_device_id)
         if enable_camera_sensors == False and self.headless == True:
             self.graphics_device_id = -1
+        print("self.graphics_device_id",self.graphics_device_id)
 
         self.num_envs = cfg["env"]["numEnvs"]
         if is_meta:

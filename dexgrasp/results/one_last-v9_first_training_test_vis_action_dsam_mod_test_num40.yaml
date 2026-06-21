@@ -1,0 +1,4 @@
+dataset_name: one
+detail:
+- - name=core-bottle-a02a1255256fbe01c9292f26f73f6538, N_seq=40, success_num:4.0,success_rate:0.1
+total_succ_rates: 0.1
