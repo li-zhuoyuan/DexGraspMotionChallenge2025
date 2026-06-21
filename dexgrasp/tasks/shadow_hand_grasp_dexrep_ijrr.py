@@ -97,7 +97,7 @@ class ShadowHandGraspDexRepIjrr(BaseTask):
         self.frame_count = 0              # 帧计数器
         self.save_video = True            # 是否保存视频（可通过 cfg 控制）
         self.video_freq = 1               # 每 1 帧抓取一次（可调）
-        self.camera_env_indices = list(0)  # 选择要录制的环境, 传入对应环境的id列表，例如 [0, 1] 表示录制环境0和环境1
+        self.camera_env_indices = [0]  # 选择要录制的环境, 传入对应环境的id列表，例如 [0, 1] 表示录制环境0和环境1
 
         control_freq_inv = self.cfg["env"].get("controlFrequencyInv", 1)
         if self.reset_time > 0.0:
