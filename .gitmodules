@@ -1,0 +1,6 @@
+[submodule "pytorch3d"]
+	path = pytorch3d
+	url = https://github.com/facebookresearch/pytorch3d.git
+[submodule "TorchSDF"]
+	path = TorchSDF
+	url = https://github.com/wrc042/TorchSDF.git
